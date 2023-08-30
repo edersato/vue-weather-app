@@ -1,5 +1,5 @@
 <template>
-  <Home />
+  <Home id="home" />
 </template>
 
 <script>
@@ -19,8 +19,15 @@ export default {
 }
 
 body {
-  background: #85c1e9;
   font-family: 'Montserrat', sans-serif;
+  background-color: #85c1e9;
+}
+
+h1, h2 {
+  text-align: center;
+  padding-top: 1em;
+  color: black;
+  font-weight: 300;
 }
 
 </style>
