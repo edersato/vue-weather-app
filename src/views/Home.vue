@@ -26,7 +26,9 @@ export default {
   computed: {
     weatherClass() {
       return typeof this.weather.main !== "undefined" &&
-        this.weather.main.temp > 25 ? "hot" : "";
+        this.weather.main.temp > 25
+        ? "hot"
+        : "";
     },
   },
 
@@ -38,17 +40,14 @@ export default {
 };
 </script>
 
-<style lang="scss">
-
+<style lang="scss" scoped>
 #home {
-    transition: 0.6s;
-    background-color: #85c1e9;
+  transition: 0.6s;
+  background: linear-gradient(#85c1e9, #d4d4d4);
 }
 
 #home.hot {
-    transition: 0.6s;
-    background-color: #ffa500;
+  transition: 0.6s;
+  background: linear-gradient(#ffa500, #d4d4d4);
 }
-
-
 </style>

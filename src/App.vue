@@ -20,7 +20,7 @@ export default {
 
 body {
   font-family: 'Montserrat', sans-serif;
-  background-color: #85c1e9;
+  background-color: #d4d4d4;
 }
 
 h1, h2 {
