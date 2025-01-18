@@ -18,6 +18,7 @@ export default {
       api_key: "17cbaaac382b9f057f5d10130dd982b8",
       url_base: "https://api.openweathermap.org/data/2.5/",
       lang: "pt_br",
+      units: "metric",
       query: "",
     };
   },

@@ -1,21 +1,25 @@
 <template>
-  <div class="weather-wrap" v-if="weatherAvailable">
+  <div v-if="weatherAvailable" class="card">
     <div class="location-box">
       <div class="location">{{ weather.name }}, {{ weather.sys.country }}</div>
-      <div class="date">{{ dateBuilder() }}</div>
     </div>
-
-    <div class="weather-box">
+    <div class="weather-info">
       <div class="temp">{{ Math.round(weather.main.temp) }}°C</div>
-      <div class="weather-desc">{{ weather.weather[0].description }}</div>
-      <div class="variations">
-        <div class="min-temp">
-          <h6>{{ min }}</h6>
-          {{ Math.round(weather.main.temp_min) }}°C
+      <div class="description">{{ weather.weather[0].description }}</div>
+      <div class="temp-range">
+        <div class="min">
+          <span>Min: {{ Math.round(weather.main.temp_min) }}°C</span>
         </div>
-        <div class="max-temp">
-          <h6>{{ max }}</h6>
-          {{ Math.round(weather.main.temp_max) }}°C
+        <div class="max">
+          <span>Max: {{ Math.round(weather.main.temp_max) }}°C</span>
+        </div>
+      </div>
+      <div class="additional-info">
+        <div class="wind">
+          <span>Velocidade do Vento: {{ weather.wind.speed }} m/s</span>
+        </div>
+        <div class="humidity">
+          <span>Humidade: {{ weather.main.humidity }}%</span>
         </div>
       </div>
     </div>
@@ -24,52 +28,16 @@
 
 <script>
 export default {
-  name: "WeatherDisplay",
-  props: {
-    weather: Object,
-  },
-  data() {
-    return {
-      min: "Mínima",
-      max: "Máxima",
-      feels: "Sensação Térmica",
-    };
-  },
+  props: ["weather", "forecast"],
   methods: {
-    dateBuilder() {
-      let d = new Date();
-      let months = [
-        "Janeiro",
-        "Fevereiro",
-        "Março",
-        "Abril",
-        "Maio",
-        "Junho",
-        "Julho",
-        "Agosto",
-        "Setembro",
-        "Outubro",
-        "Novembro",
-        "Dezembro",
-      ];
-      let days = [
-        "Domingo",
-        "Segunda",
-        "Terça",
-        "Quarta",
-        "Quinta",
-        "Sexta",
-        "Sábado",
-      ];
-      let day = days[d.getDay()];
-      let date = d.getDate();
-      let month = months[d.getMonth()];
-      let year = d.getFullYear();
+    formatDate(d) {
+      const days = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"];
+      const months = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+      const day = days[d.getDay()];
+      const date = d.getDate();
+      const month = months[d.getMonth()];
+      const year = d.getFullYear();
       return `${day} ${date} ${month} ${year}`;
-    },
-
-    setForecast(forecastData) {
-      this.forecast = forecastData;
     },
   },
   computed: {
@@ -81,98 +49,64 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-h6 {
-  padding-bottom: 0.2em;
-  font-weight: 300;
+.card {
+  background-color: linear-gradient(transparent, #d2d2d2);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  margin: 1rem 4.5em;
+  text-align: center;
 }
 
 .location-box {
-    padding: 3em 0;
-  .location {
-    padding-top: 2rem;
-    color: #000;
-    font-size: 30px;
-    font-weight: 500;
-    text-align: center;
-    margin-bottom: 5px;
-  }
+  margin-bottom: 3rem;
 
-  .date {
-    color: #000;
-    font-size: 17px;
-    font-weight: 300;
-    font-style: bold;
-    text-align: center;
+  .location {
+    font-size: 2rem;
+    font-weight: 600;
   }
 }
 
-.weather-box {
-  text-align: center;
-  min-height: 500px;
-  padding: 1em 0;
-
-  .temperature {
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-  }
-
+.weather-info {
   .temp {
-    display: inline-block;
-    padding: 5px 20px;
-    color: #000;
-    font-size: 80px;
-    font-weight: 900;
-
-    text-shadow: 3px 6px #ffffff40;
-    background-color: #ffffff40;
-    border-radius: 16px;
-    margin: 30px 0;
-
-    box-shadow: 3px 6px #00000040;
-  }
-
-  .variations {
-    display: flex;
-    justify-content: space-evenly;
-    padding-top: 2em;
-    padding-bottom: 5em;
-  }
-
-  .min-temp,
-  .max-temp,
-  .feels {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 5px 20px;
-    color: #000;
-    font-size: 50px;
+    font-size: 3rem;
     font-weight: 700;
-    box-shadow: 3px 6px #00000040;
-    border-radius: 16px;
+    
+    .description {
+      font-size: 1rem;
+      margin: 0.5rem 0;
+      border-bottom: 1px solid #fff;
+      padding-bottom: 0.5em;
+    }
   }
+  .temp-range {
+    padding: 0.8rem 0;
+    font-size: 1.5rem;
+    color: #666;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #fff;
+    margin: 0.5rem 0;
 
-  .min-temp {
-    color: #00193f;
-    background-color: #60acdfb4;
+    .min, .max {
+      border: 1px solid #fff;
+      border-radius: 8px;
+      padding: 2rem;
+    }
   }
+  .additional-info {
+    font-size: 1.2rem;
+    color: #666;
+    display: flex;
+    justify-content: space-between;
+    margin: 0.5rem 0;
 
-  .feels {
-    background-color: #dadada73;
-  }
+    .wind, .humidity {
+      border: 1px solid #fff;
+      border-radius: 9px;
+      padding: 1.5rem;
+    }
 
-  .max-temp {
-    color: #3f1900;
-    background-color: #ff4400a2;
-  }
-
-  .weather-desc {
-    color: #000;
-    font-size: 36px;
-    text-transform: capitalize;
-    font-style: italic;
-    margin: 1.5em 0;
   }
 }
 </style>

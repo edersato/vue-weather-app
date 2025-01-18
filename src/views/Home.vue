@@ -1,5 +1,5 @@
 <template>
-  <div id="home" :class="weatherClass">
+  <div id="home" :class="weatherClass" class="homeView">
     <h1>{{ title }}</h1>
     <SearchBar @weather-fetched="setWeather" />
     <CityInfo :weather="weather" />
@@ -25,10 +25,13 @@ export default {
 
   computed: {
     weatherClass() {
-      return typeof this.weather.main !== "undefined" &&
-        this.weather.main.temp > 25
-        ? "hot"
-        : "";
+      if (typeof this.weather.main !== "undefined" && this.weather.main.temp > 25) {
+        return "hot";
+      } else if (typeof this.weather.main !== "undefined" && this.weather.main.temp < 25) {
+        return "cold";
+      } else {
+        return "home";
+      }
     },
   },
 
@@ -41,7 +44,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 #home {
+  background-color: #d2d2d2;
+}
+
+#home.cold {
   transition: 0.6s;
   background: linear-gradient(#85c1e9, #d4d4d4);
 }
