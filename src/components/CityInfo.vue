@@ -1,20 +1,21 @@
 <template>
   <div v-if="weatherAvailable" class="card">
-    <div class="location-box">
-      <div class="location">{{ weather.name }}, {{ weather.sys.country }}</div>
-    </div>
-    <div class="weather-info">
-      <div class="temp">{{ Math.round(weather.main.temp) }}°C</div>
-      <div class="description">{{ weather.weather[0].description }}</div>
-      <div class="temp-range">
-        <div class="min">
-          <span>Min: {{ Math.round(weather.main.temp_min) }}°C</span>
-        </div>
-        <div class="max">
-          <span>Max: {{ Math.round(weather.main.temp_max) }}°C</span>
-        </div>
+    <div class="heading-info">
+      <img :src="weatherImg" alt="Icons">
+      <div class="temp">
+        <div class="main-temp">
+        <div class="temperature">{{ Math.round(weather.main.temp) }}°C</div>
+        <div class="location">{{ weather.name }}, {{ weather.sys.country }}</div>
       </div>
-      <div class="additional-info">
+          <div class="minMax">
+            <span>Min: {{ Math.round(weather.main.temp_min) }}°C</span>
+            <span>Max: {{ Math.round(weather.main.temp_max) }}°C</span>
+          </div>
+      </div>
+    </div>
+    <div class="additional-info">
+      <div class="description">{{ weather.weather[0].description }}</div>
+      <div class="anotherI">
         <div class="wind">
           <span>Velocidade do Vento: {{ weather.wind.speed }} m/s</span>
         </div>
@@ -22,11 +23,13 @@
           <span>Humidade: {{ weather.main.humidity }}%</span>
         </div>
       </div>
+
     </div>
   </div>
 </template>
 
 <script>
+
 export default {
   props: ["weather", "forecast"],
   methods: {
@@ -44,6 +47,18 @@ export default {
     weatherAvailable() {
       return typeof this.weather.main !== "undefined";
     },
+    weatherImg() {
+      var description = this.weather.weather[0].description.toLowerCase();
+      if(description.includes("limpo" || "sol")) {
+      return "src/assets/icons/001-sun.png";
+      } else if(description.includes("nublado" || "nuvens" || "nuvem")) {
+      return "src/assets/icons/002-cloudy.png";
+      } else if(description.includes("chuva")) {
+      return "src/assets/icons/003-rain.png";
+      } else if(description.includes("tempestade")) {
+      return "src/assets/icons/004-storm.png";
+      }
+    }
   },
 };
 </script>
@@ -54,59 +69,70 @@ export default {
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 2rem;
-  margin: 1rem 4.5em;
+  margin: 1rem 2rem;
   text-align: center;
 }
 
-.location-box {
-  margin-bottom: 3rem;
+.heading-info {
+  display: grid;
+  grid-template-columns: repeat(2, 50%);
 
-  .location {
-    font-size: 2rem;
-    font-weight: 600;
+  img {
+    width: 300px;
+    justify-self: center;
+  }
+
+  .temp {
+    display: flex;
+    padding: 1rem;
+    margin-left: 3rem;
+    justify-self: flex-end;
+
+    .main-temp {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .temperature {
+        font-size: 5rem;
+        margin-right: 0rem;
+      }
+
+      .location {
+        font-size: 1.5rem;
+      }
+    }
+
+    .minMax {
+      display: flex;
+      flex-direction: column;
+      font-size: 1.2rem;
+      padding: 1.2rem;
+
+      span:first-child {
+        margin-bottom: 0.5rem;
+      }
+    }
   }
 }
 
-.weather-info {
-  .temp {
-    font-size: 3rem;
-    font-weight: 700;
-    
-    .description {
-      font-size: 1rem;
-      margin: 0.5rem 0;
-      border-bottom: 1px solid #fff;
-      padding-bottom: 0.5em;
-    }
+.additional-info {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 2rem;
+
+  .description {
+    font-size: 2rem;
+    text-transform: capitalize;
   }
-  .temp-range {
-    padding: 0.8rem 0;
-    font-size: 1.5rem;
-    color: #666;
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 1px solid #fff;
-    margin: 0.5rem 0;
 
-    .min, .max {
-      border: 1px solid #fff;
-      border-radius: 8px;
-      padding: 2rem;
-    }
+  .anotherI {
+    display: flex;
+    flex-direction: column;
   }
-  .additional-info {
-    font-size: 1.2rem;
-    color: #666;
-    display: flex;
-    justify-content: space-between;
-    margin: 0.5rem 0;
 
-    .wind, .humidity {
-      border: 1px solid #fff;
-      border-radius: 9px;
-      padding: 1.5rem;
-    }
-
+  .wind, .humidity {
+    font-size: 1.1rem;
   }
 }
 </style>
