@@ -52,7 +52,7 @@ export default {
           return "icons/002-cloudy.png";
        } else if(description.includes("chuva")) {
           return "icons/003-rain.png";
-       } else if(description.includes("tempestade")) {
+       } else if(description.includes("tempestade") || description.includes("trovoadas")) {
           return "icons/004-storm.png";
        }
     }
