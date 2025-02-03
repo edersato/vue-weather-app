@@ -1,5 +1,5 @@
 <template>
-  <div v-if="weatherAvailable" class="card">
+  <div v-if="weatherAvailable" id="card">
     <div class="heading-info">
       <img :src="weatherImg" alt="Icons">
       <div class="temp">
@@ -16,14 +16,10 @@
     <div class="additional-info">
       <div class="description">{{ weather.weather[0].description }}</div>
       <div class="anotherI">
-        <div class="wind">
-          <span>Velocidade do Vento: {{ weather.wind.speed }} m/s</span>
-        </div>
         <div class="humidity">
-          <span>Humidade: {{ weather.main.humidity }}%</span>
+          <span>Umidade: {{ weather.main.humidity }}%</span>
         </div>
       </div>
-
     </div>
   </div>
 </template>
@@ -49,9 +45,9 @@ export default {
     },
     weatherImg() {
       var description = this.weather.weather[0].description.toLowerCase();
-      if(description.includes("limpo" || "sol")) {
+      if(description.includes("limpo") || description.includes("sol")) {
       return "src/assets/icons/001-sun.png";
-      } else if(description.includes("nublado" || "nuvens" || "nuvem")) {
+      } else if(description.includes("nublado") || description.includes("nuvens") || description.includes("nuvem")) {
       return "src/assets/icons/002-cloudy.png";
       } else if(description.includes("chuva")) {
       return "src/assets/icons/003-rain.png";
@@ -64,8 +60,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card {
-  background-color: linear-gradient(transparent, #d2d2d2);
+@import url('https://fonts.googleapis.com/css2?family=New+Amsterdam&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap');
+
+
+#card {
+  background-color: #d2d2d2;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 2rem;
@@ -76,7 +75,8 @@ export default {
 .heading-info {
   display: grid;
   grid-template-columns: repeat(2, 50%);
-
+  font-family: "Tajawal", serif;
+  
   img {
     width: 300px;
     justify-self: center;
@@ -92,23 +92,26 @@ export default {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-
+      
       .temperature {
         font-size: 5rem;
         margin-right: 0rem;
+        font-weight: 300;
       }
-
+      
       .location {
         font-size: 1.5rem;
+        font-weight: 500;
       }
     }
-
+    
     .minMax {
       display: flex;
       flex-direction: column;
       font-size: 1.2rem;
       padding: 1.2rem;
-
+      font-weight: 300;
+      
       span:first-child {
         margin-bottom: 0.5rem;
       }
@@ -120,19 +123,22 @@ export default {
   display: flex;
   justify-content: space-around;
   margin-top: 2rem;
-
+  font-family: "Tajawal", serif;
+  
   .description {
     font-size: 2rem;
     text-transform: capitalize;
+    font-weight: 400;
   }
-
+  
   .anotherI {
     display: flex;
     flex-direction: column;
   }
 
-  .wind, .humidity {
-    font-size: 1.1rem;
+  .humidity {
+    font-size: 2rem;
+    font-weight: 300;
   }
 }
 </style>
