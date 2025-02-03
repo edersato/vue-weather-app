@@ -26,10 +26,10 @@ export default {
   methods: {
     async fetchWeather() {
       try {
-        const response = await axios.get(
+        const current = await axios.get(
           `${this.url_base}weather?q=${this.query}&lang=${this.lang}&units=metric&APPID=${this.api_key}`
         );
-        this.$emit("weather-fetched", response.data);
+        this.$emit("weather-fetched", current.data);
       } catch (error) {
         console.error("Error fetching weather data:", error);
       }

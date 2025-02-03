@@ -1,5 +1,5 @@
 <template>
-  <div id="home" :class="weatherClass" class="homeView">
+  <div id="home" :class="weatherClass">
     <h1>{{ title }}</h1>
     <SearchBar @weather-fetched="setWeather" />
     <CityInfo :weather="weather" />
@@ -44,7 +44,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 #home {
   background-color: #d2d2d2;
 }
