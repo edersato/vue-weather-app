@@ -43,9 +43,10 @@ export default {
     weatherAvailable() {
       return typeof this.weather.main !== "undefined";
     },
-    const images = import.meta.glob("@/assets/icons/*.png", { eager: true });
-
+    
     weatherImg() {
+      const images = import.meta.glob("@/assets/icons/*.png", { eager: true });
+      
        var description = this.weather.weather[0].description.toLowerCase();
        if(description.includes("limpo") || description.includes("sol")) {
           return images["/src/assets/icons/001-sun.png"].default;
