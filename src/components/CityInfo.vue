@@ -43,17 +43,19 @@ export default {
     weatherAvailable() {
       return typeof this.weather.main !== "undefined";
     },
+    const images = import.meta.glob("@/assets/icons/*.png", { eager: true });
+
     weatherImg() {
-      var description = this.weather.weather[0].description.toLowerCase();
-      if(description.includes("limpo") || description.includes("sol")) {
-      return require("src/assets/icons/001-sun.png");
-      } else if(description.includes("nublado") || description.includes("nuvens") || description.includes("nuvem")) {
-      return require("src/assets/icons/002-cloudy.png");
-      } else if(description.includes("chuva")) {
-      return require("src/assets/icons/003-rain.png");
-      } else if(description.includes("tempestade")) {
-      return require("src/assets/icons/004-storm.png");
-      }
+       var description = this.weather.weather[0].description.toLowerCase();
+       if(description.includes("limpo") || description.includes("sol")) {
+          return images["/src/assets/icons/001-sun.png"].default;
+       } else if(description.includes("nublado") || description.includes("nuvens") || description.includes("nuvem")) {
+          return images["/src/assets/icons/002-cloudy.png"].default;
+       } else if(description.includes("chuva")) {
+          return images["/src/assets/icons/003-rain.png"].default;
+       } else if(description.includes("tempestade")) {
+          return images["/src/assets/icons/004-storm.png"].default;
+       }
     }
   },
 };
