@@ -43,21 +43,17 @@ export default {
     weatherAvailable() {
       return typeof this.weather.main !== "undefined";
     },
- weatherImg() {
-    if (this.weather && this.weather.weather && this.weather.weather[0] && this.weather.weather[0].description) {
+    weatherImg() {
       var description = this.weather.weather[0].description.toLowerCase();
       if(description.includes("limpo") || description.includes("sol")) {
-        return "assets/icons/001-sun.png";
+      return require("src/assets/icons/001-sun.png");
       } else if(description.includes("nublado") || description.includes("nuvens") || description.includes("nuvem")) {
-        return "assets/icons/002-cloudy.png";
+      return require("src/assets/icons/002-cloudy.png");
       } else if(description.includes("chuva")) {
-        return "assets/icons/003-rain.png";
+      return require("src/assets/icons/003-rain.png");
       } else if(description.includes("tempestade")) {
-        return "assets/icons/004-storm.png";
+      return require("src/assets/icons/004-storm.png");
       }
-    }
-    return "assets/icons/default.png"; // Default image
-  }
     }
   },
 };
