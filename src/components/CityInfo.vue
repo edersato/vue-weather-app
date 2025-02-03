@@ -46,13 +46,13 @@ export default {
     weatherImg() {
       var description = this.weather.weather[0].description.toLowerCase();
       if(description.includes("limpo") || description.includes("sol")) {
-      return "src/assets/icons/001-sun.png";
+      return "./src/assets/icons/001-sun.png";
       } else if(description.includes("nublado") || description.includes("nuvens") || description.includes("nuvem")) {
-      return "src/assets/icons/002-cloudy.png";
+      return "./src/assets/icons/002-cloudy.png";
       } else if(description.includes("chuva")) {
-      return "src/assets/icons/003-rain.png";
+      return "./src/assets/icons/003-rain.png";
       } else if(description.includes("tempestade")) {
-      return "src/assets/icons/004-storm.png";
+      return "./src/assets/icons/004-storm.png";
       }
     }
   },
