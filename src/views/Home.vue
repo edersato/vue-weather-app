@@ -1,8 +1,10 @@
 <template>
   <div id="home" :class="weatherClass">
     <h1>{{ title }}</h1>
-    <SearchBar @weather-fetched="setWeather" />
-    <CityInfo :weather="weather" />
+    <!-- <SearchBar @weather-fetched="setWeather" /> -->
+    <SearchBar @weather-fetched="setWeather" @forecast-fetched="setForecast" />
+    <!-- <CityInfo :weather="weather" /> -->
+    <CityInfo :weather="weather" :forecast="forecast" />
   </div>
 </template>
 
@@ -20,6 +22,7 @@ export default {
     return {
       title: "Weather App",
       weather: {},
+      forecast: {},
     };
   },
 
@@ -36,9 +39,13 @@ export default {
   },
 
   methods: {
-    setWeather(weatherData) {
-      this.weather = weatherData;
+    setWeather(data) {
+      this.weather = data;
     },
+    
+    setForecast(data) {
+      this.forecast = data;
+    }
   },
 };
 </script>
