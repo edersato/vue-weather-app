@@ -1,5 +1,5 @@
 <template>
-  <div v-if="weatherAvailable" id="card">
+  <div v-if="weatherDefine" id="card">
     <div class="heading-info">
       <img :src="weatherImg" alt="Icons">
       <div class="temp">
@@ -20,6 +20,14 @@
           <span>Umidade: {{ weather.main.humidity }}%</span>
         </div>
       </div>
+    </div>
+
+  </div>
+  <div v-if="weatherDefine" id="cardForecast">
+    <div class="test" v-if="forecastAvailable && forecast.forecast.forecastday[0]?.day">
+      <h2> {{ forecast.forecast.forecastday[0].day.maxtemp_c }}ºC </h2>
+      <h2> {{ forecast.forecast.forecastday[1].day.maxtemp_c }}ºC </h2>
+      <h2> {{ forecast.forecast.forecastday[2].day.maxtemp_c }}ºC </h2>
     </div>
   </div>
 </template>
@@ -44,6 +52,14 @@ export default {
       return typeof this.weather.main !== "undefined";
     },
     
+    forecastAvailable() {
+      return this.forecast?.forecast?.forecastday?.length > 0;
+    },
+
+    weatherDefine() {
+      return this.weatherAvailable && this.forecastAvailable;
+    },
+    
     weatherImg() {
        var description = this.weather.weather[0].description.toLowerCase();
        if(description.includes("limpo") || description.includes("sol")) {
@@ -64,12 +80,12 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=New+Amsterdam&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap');
 
 
-#card {
+#card, #cardForecast {
   background-color: #d2d2d2;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
-  margin: 1rem 2rem;
+  padding: 2rem 3rem;
+  margin: 1rem 5rem;
   text-align: center;
 }
 

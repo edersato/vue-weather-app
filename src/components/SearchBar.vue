@@ -5,8 +5,9 @@
       class="search-bar"
       placeholder="Busque uma cidade"
       v-model="query"
-      @keypress.enter="fetchWeather"
-    />
+      @keypress.enter="fetchWeather(); fetchDaily();"
+      />
+      <!-- @keypress.enter="fetchWeather();" -->
   </div>
 </template>
 
@@ -15,11 +16,16 @@ import axios from "axios";
 export default {
   data() {
     return {
+      //OpenWeather
       api_key: "17cbaaac382b9f057f5d10130dd982b8",
       url_base: "https://api.openweathermap.org/data/2.5/",
       lang: "pt_br",
       units: "metric",
       query: "",
+
+      //WeatherApi
+      apiForecast: "35b23f032406442889d125018250302",
+      urlForecast: "http://api.weatherapi.com/v1/forecast.json",
     };
   },
 
@@ -32,6 +38,18 @@ export default {
         this.$emit("weather-fetched", current.data);
       } catch (error) {
         console.error("Error fetching weather data:", error);
+      }
+    },
+
+    async fetchDaily() {
+      try {
+        const daily = await axios.get(
+          `${this.urlForecast}?key=${this.apiForecast}&q=${this.query}&days=7&aqi=no&alerts=no`  
+        );
+        this.$emit("forecast-fetched", daily.data);
+      }
+      catch(error) {
+        console.error(error);
       }
     },
   },
