@@ -14,15 +14,16 @@ export default {
 <style>
 @import url('https://fonts.googleapis.com/css2?family=New+Amsterdam&display=swap');
 
-h1 {
-  font-family: "New Amsterdam", serif;
-  font-weight: 400;
-  font-style: normal;
-}
 
 * {
   margin: 0;
   padding: 0;
+}
+
+h1 {
+  font-family: "New Amsterdam", serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 body {

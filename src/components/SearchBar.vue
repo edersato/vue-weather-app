@@ -7,7 +7,6 @@
       v-model="query"
       @keypress.enter="fetchWeather(); fetchDaily();"
       />
-      <!-- @keypress.enter="fetchWeather();" -->
   </div>
 </template>
 

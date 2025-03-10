@@ -1,9 +1,7 @@
 <template>
   <div id="home" :class="weatherClass">
     <h1>{{ title }}</h1>
-    <!-- <SearchBar @weather-fetched="setWeather" /> -->
     <SearchBar @weather-fetched="setWeather" @forecast-fetched="setForecast" />
-    <!-- <CityInfo :weather="weather" /> -->
     <CityInfo :weather="weather" :forecast="forecast" />
   </div>
 </template>
