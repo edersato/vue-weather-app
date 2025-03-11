@@ -173,3 +173,37 @@ export default {
   }
 }
 </style>
+
+<!-- Media Queries -->
+
+<style lang="scss" scoped>
+  @media(min-width: 300px) and (max-width: 650px) {
+    .heading-info {
+      display: flex;
+      flex-direction: column;
+
+      img {
+        align-self: center;
+      }
+
+      .temp {
+        flex-direction: column;
+        margin: 0;
+      }
+    }
+
+    .additional-info {
+      flex-direction: column;
+      margin: 0;
+
+      .description {
+        font-size: 1.5rem;
+        margin-bottom: 1em;
+      }
+
+      .humidity {
+        font-size: 1.5rem;
+      }
+    }
+  }
+</style>

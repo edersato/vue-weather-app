@@ -92,3 +92,24 @@ export default {
   }
 }
 </style>
+
+<style lang="scss" scoped>
+
+@media(min-width: 300px) and (max-width: 425px) {
+  .search-box {
+    .search-bar {
+      width: 70%;
+    }
+  }
+}
+
+@media(min-width: 426px) and (max-width: 650px) {
+  .search-box {
+    .search-bar {
+      width: 80%;
+    }
+  }
+}
+
+
+</style>

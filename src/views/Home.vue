@@ -55,11 +55,11 @@ export default {
 
 #home.cold {
   transition: 0.6s;
-  background: linear-gradient(#85c1e9, #d4d4d4);
+  background: linear-gradient(#85c1e9, #d4d4d4, #d1d1d1);
 }
 
 #home.hot {
   transition: 0.6s;
-  background: linear-gradient(#ffa500, #d4d4d4);
+  background: linear-gradient(#ffa500, #d4d4d4, #d1d1d1);
 }
 </style>
