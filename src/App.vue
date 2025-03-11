@@ -20,7 +20,7 @@ export default {
   padding: 0;
 }
 
-h1 {
+h1, h2, h3 {
   font-family: "New Amsterdam", serif;
   font-weight: 400;
   font-style: normal;
@@ -36,6 +36,19 @@ h1, h2 {
   padding-top: 1em;
   color: black;
   font-weight: 300;
+}
+
+h3 {
+  letter-spacing: 1.2px;
+}
+
+.card-container {
+  background-color: #d2d2d2;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 2rem 3rem;
+  margin: 1.5rem;
+  text-align: center;
 }
 
 </style>

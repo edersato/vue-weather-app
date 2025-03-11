@@ -1,5 +1,5 @@
 <template>
-  <div v-if="weatherDefine" id="card">
+  <div v-if="weatherDefine" id="card" class="card-container">
     <div class="heading-info">
       <img :src="weatherImg" alt="Icons" />
       <div class="temp">
@@ -25,15 +25,17 @@
     </div>
   </div>
   <div v-if="weatherDefine">
+    <HourlyForecast :forecast="forecast" />
     <Forecast :forecast="forecast" />
   </div>
 </template>
 
 <script>
+import HourlyForecast from './HourlyForecast.vue';
 import Forecast from './Forecast.vue';
 export default {
   props: ["weather", "forecast"],
-  components: { Forecast },
+  components: { Forecast, HourlyForecast },
   methods: {
     formatDate(d) {
       const days = [
@@ -71,10 +73,6 @@ export default {
       return typeof this.weather.main !== "undefined";
     },
 
-    forecastAvailable() {
-      return this.forecast?.forecast?.forecastday?.length > 0;
-    },
-
     weatherDefine() {
       return this.weatherAvailable && this.forecast;
     },
@@ -104,16 +102,6 @@ export default {
 
 <style lang="scss" scoped>
 @import url("https://fonts.googleapis.com/css2?family=New+Amsterdam&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap");
-
-#card,
-#cardForecast {
-  background-color: #d2d2d2;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 2rem 3rem;
-  margin: 1.5rem;
-  text-align: center;
-}
 
 .heading-info {
   display: grid;
