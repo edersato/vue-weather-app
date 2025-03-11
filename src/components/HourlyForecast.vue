@@ -9,8 +9,8 @@
         >
           <span class="time">{{ formatTime(hour.time) }}</span>
           <img :src="hour.condition.icon" alt="Hour Icon">
-          <span class="temp">{{ Math.round(hour.temp_c) }}°C</span>
-          <span class="rain">{{ hour.chance_of_rain }}%</span>
+          <span class="temp">Max: {{ Math.round(hour.temp_c) }}°C</span>
+          <span class="rain">Umidade: {{ hour.chance_of_rain }}%</span>
         </div>
       </div>
     </div>
@@ -46,54 +46,63 @@
   h2 {
     padding-bottom: 1.5rem;
   }
-
-  .hourly-forecast {
-    margin-top: 2rem;
-    padding: 1rem;
-    background: #f5f5f5;
-    border-radius: 8px;
-  
-    h3 {
-      font-family: 'Tajawal', sans-serif;
-      margin-bottom: 1rem;
-    }
-  }
   
   .hourly-container {
-    display: flex;
-    gap: 1rem;
-    overflow-x: auto;
-    padding-bottom: 1rem;
+    display: grid;
+    grid-template-columns: repeat(4, 23%);
+    gap: 2%;
+    overflow-y: auto;
   }
   
   .hour-card {
-    min-width: 80px;
+    display: flex;
+    flex-direction: column;
     text-align: center;
     background: white;
     border-radius: 8px;
     padding: 0.5rem;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   
+    .time {
+      font-size: 0.9rem;
+      font-weight: 700;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
     img {
       width: 40px;
       height: 40px;
-      display: block;
-      margin: 0 auto;
-    }
-  
-    .time {
-      font-size: 0.9rem;
-      display: block;
-      margin-bottom: 0.5rem;
+      align-self: center;
+      margin-bottom: 1em;
     }
   
     .temp {
       font-weight: bold;
+      margin-bottom: .5rem;
     }
   
     .rain {
       color: #2c3e50;
       font-size: 0.8rem;
+    }
+  }
+  </style>
+
+  <style lang="scss" scoped>
+  
+  @media(min-width: 300px) and (max-width: 425px) {
+    .hourly-container {
+        grid-template-columns: auto;
+        overflow-y: auto;
+        gap: 1em;
+        height: 300px;
+    }
+  }
+
+  @media(min-width: 426px) and (max-width: 600px) {
+    .hourly-container {
+        grid-template-columns: repeat(2, 48%);
     }
   }
   </style>

@@ -12,9 +12,9 @@
             <img :src="day.day.condition.icon" alt="IconForecast">
           </span>
           <div class="dayInfo">
-            <span>{{ Math.round(day.day.maxtemp_c) }}ºC</span>
-            <span>{{ Math.round(day.day.mintemp_c) }}ºC</span>
-            <span>{{ day.day.daily_chance_of_rain }}%</span>
+            <span>Max: {{ Math.round(day.day.maxtemp_c) }}ºC</span>
+            <span>Min: {{ Math.round(day.day.mintemp_c) }}ºC</span>
+            <span>Chance de Chuva: {{ day.day.daily_chance_of_rain }}%</span>
           </div>
         </div>
       </div>
@@ -38,10 +38,8 @@ export default {
       const today = new Date();
       const targetDate = new Date(dateString);
       
-      // Diferença em dias entre as datas
       const diffDays = Math.floor((targetDate - today) / (1000 * 60 * 60 * 24));
       
-      // Define os rótulos com base no índice/diferença
       switch (diffDays) {
         case 0:
           return "Hoje";
@@ -69,7 +67,6 @@ export default {
   }
   
   .dayDetails {
-    min-width: 200px;
     text-align: center;
     border-radius: 8px;
     padding: 1rem;
@@ -85,6 +82,14 @@ export default {
     img {
       width: 50px;
       height: 50px;
+    }
+  }
+  </style>
+
+  <style lang="scss" scoped>
+  @media(min-width: 300px) and (max-width: 650px) {
+    .forecasts {
+      flex-direction: column;
     }
   }
   </style>
