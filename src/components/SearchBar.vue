@@ -43,7 +43,7 @@ export default {
     async fetchDaily() {
       try {
         const daily = await axios.get(
-          `${this.urlForecast}?key=${this.apiForecast}&q=${this.query}&days=7&aqi=no&alerts=no`  
+          `${this.urlForecast}?key=${this.apiForecast}&q=${this.query}&days=5&aqi=no&alerts=no`  
         );
         this.$emit("forecast-fetched", daily.data);
       }
