@@ -1,12 +1,38 @@
 <template>
-  <div class="search-box">
-    <input
-      type="text"
-      class="search-bar"
-      placeholder="Busque uma cidade"
-      v-model="query"
-      @keypress.enter="fetchWeather(); fetchDaily();"
+  <div class="search-wrapper">
+    <div class="search-field" :class="{ focused, loading }">
+      <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input
+        ref="input"
+        type="text"
+        placeholder="Busque uma cidade..."
+        v-model="query"
+        @keypress.enter="handleSearch"
+        @focus="focused = true"
+        @blur="focused = false"
+        autocomplete="off"
+        spellcheck="false"
       />
+      <button v-if="query" class="clear-btn" @click="query = ''; $refs.input.focus()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6 6 18M6 6l12 12"/>
+        </svg>
+      </button>
+      <div v-if="loading" class="spin-ring"></div>
+      <button v-else class="search-btn" @click="handleSearch" :disabled="!query.trim()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </button>
+    </div>
+    <p v-if="error" class="error-msg">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/>
+      </svg>
+      {{ error }}
+    </p>
   </div>
 </template>
 
@@ -15,40 +41,34 @@ import axios from "axios";
 export default {
   data() {
     return {
-      //OpenWeather
       api_key: "17cbaaac382b9f057f5d10130dd982b8",
       url_base: "https://api.openweathermap.org/data/2.5/",
       lang: "pt_br",
-      units: "metric",
-      query: "",
-
-      //WeatherApi
       apiForecast: "35b23f032406442889d125018250302",
       urlForecast: "http://api.weatherapi.com/v1/forecast.json",
+      query: "",
+      focused: false,
+      loading: false,
+      error: "",
     };
   },
-
   methods: {
-    async fetchWeather() {
+    async handleSearch() {
+      const q = this.query.trim();
+      if (!q) return;
+      this.loading = true;
+      this.error = "";
       try {
-        const current = await axios.get(
-          `${this.url_base}weather?q=${this.query}&lang=${this.lang}&units=metric&APPID=${this.api_key}`
-        );
+        const [current, daily] = await Promise.all([
+          axios.get(`${this.url_base}weather?q=${q}&lang=${this.lang}&units=metric&APPID=${this.api_key}`),
+          axios.get(`${this.urlForecast}?key=${this.apiForecast}&q=${q}&days=4&aqi=no&alerts=no`),
+        ]);
         this.$emit("weather-fetched", current.data);
-      } catch (error) {
-        console.error("Error fetching weather data:", error);
-      }
-    },
-
-    async fetchDaily() {
-      try {
-        const daily = await axios.get(
-          `${this.urlForecast}?key=${this.apiForecast}&q=${this.query}&days=5&aqi=no&alerts=no`  
-        );
         this.$emit("forecast-fetched", daily.data);
-      }
-      catch(error) {
-        console.error(error);
+      } catch {
+        this.error = "Cidade não encontrada. Tente outro nome.";
+      } finally {
+        this.loading = false;
       }
     },
   },
@@ -56,60 +76,98 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.search-box {
+.search-wrapper {
+  margin: 1.75rem 0 0.5rem;
+}
+
+.search-field {
   display: flex;
-  justify-content: center;
-  margin-top: 2em;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0 1rem;
+  height: 54px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
 
-  .search-bar {
-    display: block;
-    padding: 1.5rem;
-    width: 90%;
-    font-size: 20px;
-
-    appearance: none;
-    border: none;
-    outline: none;
-    background: none;
-
-    box-shadow: 0px 0px 8px #00000040;
-    background-color: #ffffff66;
-    border-radius: 0 16px;
-    transition: 0.4s;
-    text-align: center;
-
-    &:focus {
-      box-shadow: 0px 0px 16px #00000040;
-      background-color: #ffffff66;
-      border-radius: 16px 0px;
-      text-align: center;
-      font-size: 1.3rem;
-    }
-
-    &::placeholder {
-      text-align: center;
-    }
-  }
-}
-</style>
-
-<style lang="scss" scoped>
-
-@media(min-width: 300px) and (max-width: 425px) {
-  .search-box {
-    .search-bar {
-      width: 70%;
-    }
+  &.focused {
+    border-color: rgba(79,163,227,0.45);
+    background: rgba(255,255,255,0.07);
+    box-shadow: 0 0 0 3px rgba(79,163,227,0.08);
   }
 }
 
-@media(min-width: 426px) and (max-width: 650px) {
-  .search-box {
-    .search-bar {
-      width: 80%;
-    }
-  }
+.search-icon {
+  flex-shrink: 0;
+  color: var(--text-muted);
+  transition: color var(--transition);
+
+  .focused & { color: var(--accent-cold); }
 }
 
+input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  font-family: var(--font-body);
+  font-size: 0.98rem;
+  font-weight: 400;
+  color: var(--text-primary);
+  letter-spacing: 0.01em;
 
+  &::placeholder { color: var(--text-muted); }
+}
+
+.clear-btn {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+  transition: color var(--transition);
+  &:hover { color: var(--text-secondary); }
+}
+
+.search-btn {
+  flex-shrink: 0;
+  width: 34px; height: 34px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--accent-cold);
+  border: none; border-radius: 10px;
+  cursor: pointer; color: #fff;
+  transition: opacity var(--transition), transform var(--transition);
+
+  &:hover:not(:disabled) { opacity: 0.85; transform: translateX(1px); }
+  &:disabled { opacity: 0.3; cursor: default; }
+}
+
+/* Loading spinner */
+.spin-ring {
+  width: 20px; height: 20px;
+  border: 2px solid rgba(79,163,227,0.2);
+  border-top-color: var(--accent-cold);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.error-msg {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.65rem;
+  padding: 0.55rem 0.9rem;
+  font-size: 0.82rem;
+  color: #f87171;
+  background: rgba(248,113,113,0.08);
+  border: 1px solid rgba(248,113,113,0.15);
+  border-radius: 10px;
+}
 </style>
